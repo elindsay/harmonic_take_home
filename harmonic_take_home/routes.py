@@ -35,7 +35,7 @@ def company(company_id):
         company_data['acquisitions'] = [acquisition.to_dict() for acquisition in acquisitions]
     if request.args.get('descendants', False):
         descendants = company.get_all_descendant_companies()
-        company_data['descendants'] = [descendant.to_dict() for descendant in descendant]
+        company_data['descendants'] = [descendant.to_dict() for descendant in descendants]
 
     return jsonify(company_data)
 

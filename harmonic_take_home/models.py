@@ -17,7 +17,7 @@ class Acquisition(StructuredRel):
         MERGE (p)-[a:ACQUIRED]->(c)
         SET a.merged_into_parent_company = data.merged_into_parent_company
         """
-        print(db.cypher_query(query, params={"batch": company_acquisitions_data}))
+        db.cypher_query(query, params={"batch": company_acquisitions_data})
 
 class Company(StructuredNode):
     company_name = StringProperty(unique_index=True, required=True)
@@ -122,7 +122,6 @@ class Employment(StructuredRel):
 
     @classmethod
     def edit(cls, person_employment_data):
-        print("two")
         person_id = person_employment_data['person_id']
         company_id = person_employment_data['company_id']
         start_date = to_timestamp(person_employment_data['start_date'])
@@ -139,14 +138,12 @@ class Employment(StructuredRel):
             }
         results, _ = db.cypher_query(query, params=params)
 
-        print("three")
         if results:
             employment_rel = Employment.inflate(results[0][0])
             if person_employment_data.get('employment_title'):
                 employment_rel.employment_title = person_employment_data["employment_title"]
             if person_employment_data.get('end_date'):
                 employment_rel.end_date = datetime.datetime.strptime(person_employment_data['end_date'],"%Y-%m-%d %H:%M:%S")
-            print("four")
             return employment_rel.save()
 
 class Person(StructuredNode):
