@@ -83,7 +83,17 @@ Then, when all that is working, you can get the app started by running
 
 `flask run -p 5001` (Note -- specify port 5001 because on my mac, port 5000 is reserved.) 
 
-I also used Rapid API to use the API. 
+To get the app populated, you need to:
+1. Hit the URL end point http://localhost:5001/stream once after app start
+2. Run `python db_uploader.py`
+
+To mimick a stream, you need to
+1. Hit http://localhost:5001/stream once after app start (if you hit it on previous step, no need to do it again)
+2. Run `python stream_mimicker.py`
+
+To run the tests, you can just run `pytest` in the root directory, but be aware, they will wipe the db set up in testing
+
+You can then just access the rest of the API with http requests. I use the app Rapid API (used to be Paw) to test this.
 
 Relevant requests:
 * `GET http://localhost:5001/stream` -> this starts the stream to Redis. If you hit it more than once, there will be multiple subscriptions to Redis. It also times out, but the Redis part still works (tight on time, so didn't totally clean this up.)
